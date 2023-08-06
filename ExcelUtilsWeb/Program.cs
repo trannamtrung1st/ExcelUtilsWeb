@@ -1,13 +1,18 @@
-using ExcelUtilsWeb.Data;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
+using ExcelUtilsWeb.Services;
+using ExcelUtilsWeb.Services.Interfaces;
+using System.Diagnostics;
 
 var builder = WebApplication.CreateBuilder(args);
+var useUrl = builder.Configuration["Url"];
+builder.WebHost.UseUrls(useUrl);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddSingleton<WeatherForecastService>();
+builder.Services.AddAntDesign();
+
+builder.Services.AddScoped<IExcelService, ExcelService>()
+    .AddScoped<IFileService, FileService>();
 
 var app = builder.Build();
 
@@ -25,4 +30,18 @@ app.UseRouting();
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
 
+app.Lifetime.ApplicationStarted.Register(() =>
+{
+    OpenBrowser(useUrl);
+});
+
 app.Run();
+
+static void OpenBrowser(string url)
+{
+    Process.Start(
+        new ProcessStartInfo("cmd", $"/c start {url}")
+        {
+            CreateNoWindow = true
+        });
+}

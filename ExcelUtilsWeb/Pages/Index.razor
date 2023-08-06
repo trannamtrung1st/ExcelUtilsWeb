@@ -1,9 +1,37 @@
 ﻿@page "/"
 
-<PageTitle>Index</PageTitle>
+<PageTitle>Kết nối Excel</PageTitle>
 
-<h1>Hello, world!</h1>
+<Title Level="2">Kết nối Excel</Title>
 
-Welcome to your new app.
+<Form Loading="loading" Model="model"
+      LabelColSpan="8"
+      WrapperColSpan="16"
+      OnFinish="OnFinish"
+      OnFinishFailed="OnFinishFailed"
+      ValidateMode="@FormValidateMode.Rules"
+      ValidateOnChange="true">
+    <FormItem Required Label="Tệp tin file">
+         <InputFile @bind-Value="@context.File" OnChange="OnFileChanged" />
+     </FormItem>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+     @for (var i = 0; i < model.Sheets.Count; i++)
+    {
+        var current = i;
+        <Divider />
+        <FormItem Required Label="Tên sheet">
+             <AntDesign.Input TValue="string" Value="model.Sheets[current]"
+                              OnChange="@((string value) => OnChange(value, model.Sheets, current))" />
+         </FormItem>
+        <FormItem Required Label="Các cột cách nhau bởi dấu |">
+             <AntDesign.Input TValue="string" Value="model.Columns[current]"
+                              OnChange="@((string value) => OnChange(value, model.Columns, current))" />
+         </FormItem>
+    }
+
+    <FormItem WrapperColOffset="8" WrapperColSpan="16">
+        <Button Type="@ButtonType.Primary" HtmlType="submit">
+            Gửi đi
+        </Button>
+    </FormItem>
+</Form>

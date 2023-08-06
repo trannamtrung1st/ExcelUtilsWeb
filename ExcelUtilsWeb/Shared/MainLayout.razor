@@ -1,19 +1,34 @@
 ﻿@inherits LayoutComponentBase
 
-<PageTitle>ExcelUtilsWeb</PageTitle>
+<Layout>
+    <Sider Style="overflow: auto;height: 100vh;position: fixed;left: 0;">
+        <div class="logo" />
+        <Menu Theme="MenuTheme.Dark" Mode="MenuMode.Inline">
+            <MenuItem Key="home" RouterLink="/">
+                <Icon Type="home" Theme="outline" />
+                <span class="nav-text">Home</span>
+            </MenuItem>
+        </Menu>
+    </Sider>
+    <Layout Class="site-layout" Style=" margin-left: 200px">
+        <Header Class="site-layout-background" Style="padding: 0"></Header>
+        <Content Style="margin: 24px 16px 0; overflow: initial; ">
+            <div class="site-layout-background" style="padding: 24px;">
+                @Body
+            </div>
+        </Content>
+        <Footer Style=" text-align: center;">Ant Design ©2018 Created by Ant UED</Footer>
+    </Layout>
+</Layout>
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
+<style>
+    .logo {
+        height: 32px;
+        background: rgba(255, 255, 255, 0.2);
+        margin: 16px;
+    }
 
-    <main>
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-        </div>
-
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
-</div>
+    .site-layout .site-layout-background {
+        background: #fff;
+    }
+</style>
